@@ -1,13 +1,14 @@
-﻿using System.Net;
+﻿using FlashPayCrawler.Crawlers;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-
+using System.Net;
 namespace FlashPayCrawler
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+            new CrawlerManager();
             BuildWebHost(args).Run();
         }
 
@@ -16,7 +17,7 @@ namespace FlashPayCrawler
                 .UseStartup<Startup>()
                 .UseKestrel(options =>
                 {
-                    options.Listen(IPAddress.Any,82);
+                    options.Listen(IPAddress.Any,Setting.Ins.Port);
                 })
                 .Build();
     }

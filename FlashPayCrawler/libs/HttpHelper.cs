@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FlashPayCrawler.libs
 {
-    public class httpHelper
+    public class HttpHelper
     {
         /// <summary>
         /// 同步get请求
@@ -17,7 +17,7 @@ namespace FlashPayCrawler.libs
         /// <param name="url">链接地址</param>    
         /// <param name="formData">写在header中的键值对</param>
         /// <returns></returns>
-        public string HttpGet(string url, List<KeyValuePair<string, string>> formData = null)
+        public static string HttpGet(string url, List<KeyValuePair<string, string>> formData = null)
 
         {
 
@@ -48,11 +48,10 @@ namespace FlashPayCrawler.libs
         /// <param name="charset">编码格式</param>
         /// <param name="mediaType">头媒体类型</param>
         /// <returns></returns>
-        public string HttpPost(string uri, string url, List<KeyValuePair<string, string>> formData = null, string charset = "UTF-8", string mediaType = "application/x-www-form-urlencoded")
+        public static string HttpPost(string url, List<KeyValuePair<string, string>> formData = null, string charset = "UTF-8", string mediaType = "application/x-www-form-urlencoded")
         {
             string tokenUri = url;
             var client = new HttpClient();
-            client.BaseAddress = new Uri(uri);
             HttpContent content = new FormUrlEncodedContent(formData);
             content.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
             content.Headers.ContentType.CharSet = charset;
@@ -107,11 +106,10 @@ namespace FlashPayCrawler.libs
         /// <param name="charset">编码格式</param>
         /// <param name="mediaType">头媒体类型</param>
         /// <returns></returns>
-        public async Task<string> HttpPostAsync(string uri, string url, List<KeyValuePair<string, string>> formData = null, string charset = "UTF-8", string mediaType = "application/x-www-form-urlencoded")
+        public static async Task<string> HttpPostAsync(string url, List<KeyValuePair<string, string>> formData = null, string charset = "UTF-8", string mediaType = "application/x-www-form-urlencoded")
         {
             string tokenUri = url;
             var client = new HttpClient();
-            client.BaseAddress = new Uri(uri);
             HttpContent content = new FormUrlEncodedContent(formData);
             content.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
             content.Headers.ContentType.CharSet = charset;
@@ -129,8 +127,10 @@ namespace FlashPayCrawler.libs
         }
 
         //流模式post
-        public string Post(string url, string data, Encoding encoding, int type = 3)
+        public static string Post(string url, string data, int type = 1)
         {
+            Encoding encoding = Encoding.UTF8;
+
             HttpWebRequest req = null;
             HttpWebResponse rsp = null;
             Stream reqStream = null;
@@ -159,7 +159,7 @@ namespace FlashPayCrawler.libs
                 reqStream.Write(postData, 0, postData.Length);
 
                 rsp = (HttpWebResponse)req.GetResponseAsync().Result;
-                string result = GetResponseAsString(rsp, encoding);              
+                string result = GetResponseAsString(rsp, encoding);
 
                 return result;
             }
@@ -189,7 +189,7 @@ namespace FlashPayCrawler.libs
             }
         }
 
-        private string GetResponseAsString(HttpWebResponse rsp, Encoding encoding)
+        private static string GetResponseAsString(HttpWebResponse rsp, Encoding encoding)
         {
             Stream stream = null;
             StreamReader reader = null;

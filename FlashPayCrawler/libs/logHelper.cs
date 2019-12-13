@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace FlashPayCrawler.libs
 {
-    public static class logHelper
+    public static class LogHelper
     {
         public static string logInfoFormat(object inputJson,object outputJson,DateTime start)
         {

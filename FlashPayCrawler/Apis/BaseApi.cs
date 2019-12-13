@@ -9,7 +9,7 @@ namespace FlashPayCrawler.Apis
     {
         protected string netnode { get; set; }
 
-        httpHelper hh = new httpHelper();
+        HttpHelper hh = new HttpHelper();
 
         protected Monitor monitor;
 
@@ -47,17 +47,7 @@ namespace FlashPayCrawler.Apis
             try
             {
                 point(req.method);
-                switch (req.method) {
-                    case "getnodetype":
-                        JArray JA = new JArray
-                        {
-                            new JObject {
-                                { "nodeType",netnode }
-                            }
-                        };
-                        result = JA;
-                        break;
-                }
+                result = ProcessRes(req);
                 if (result != null && result.Count > 0 && result[0]["errorCode"] != null)
                 {
                     JsonPRCresponse_Error resE = new JsonPRCresponse_Error(req.id, (int)result[0]["errorCode"], (string)result[0]["errorMsg"], (string)result[0]["errorData"]);
@@ -86,6 +76,26 @@ namespace FlashPayCrawler.Apis
 
             return res;
         }
+
+        protected virtual JArray ProcessRes(JsonRPCrequest req)
+        {
+            JArray result = new JArray();
+
+            switch (req.method)
+            {
+                case "getnodetype":
+                    JArray JA = new JArray
+                        {
+                            new JObject {
+                                { "nodeType",netnode }
+                            }
+                        };
+                    result = JA;
+                    break;
+            }
+            return result;
+        }
+
 
         protected void point(string method)
         {
