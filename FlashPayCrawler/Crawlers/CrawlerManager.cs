@@ -21,7 +21,8 @@ namespace FlashPayCrawler.Crawlers
         {
             //获取爬虫处理到的高度
             uint curHeight = Singleton.Store.GetBlockNumber().TryGet(0);
-            curHeight = curHeight == 0 ? Setting.Ins.StartBlockNumber : curHeight;
+            curHeight =  Setting.Ins.StartBlockNumber;
+            //curHeight = curHeight == 0 ? Setting.Ins.StartBlockNumber : curHeight;
             Logger.LogCommon(string.Format("本地的高度{0}", curHeight));
             while (true)
             {

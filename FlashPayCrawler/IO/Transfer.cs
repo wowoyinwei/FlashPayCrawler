@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using FlashPayCrawler.libs;
+using Newtonsoft.Json.Linq;
 
 namespace FlashPayCrawler.IO
 {
@@ -49,6 +50,18 @@ namespace FlashPayCrawler.IO
                 this.Serialize(writer);
                 return ms.ToArray();
             }
+        }
+
+        public JObject ToJson()
+        {
+            JObject jo = new JObject();
+            jo["TransactionHash"] = TransactionHash.ToString();
+            jo["LogIndex"] = LogIndex;
+            jo["Asset"] = Asset.ToString();
+            jo["From"] = From.ToString();
+            jo["To"] = To.ToString();
+            jo["Value"] = Value;
+            return jo;
         }
     }
 

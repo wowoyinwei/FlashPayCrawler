@@ -2,7 +2,7 @@
   "port": 82,
   "simpleDbPath": "./simpleDb",
   "ethCliUrl": "http://123.176.98.59:8545",
-  "StartBlockNumber": 5605800
+  "StartBlockNumber": 5605950
 }
 
 

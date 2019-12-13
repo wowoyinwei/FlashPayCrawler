@@ -65,8 +65,10 @@ namespace FlashPayCrawler.Crawlers
             Transfer t = new Transfer();
             t.Asset = l.ContractAddress;
             t.LogIndex = l.LogIndex;
-            t.From = new UInt160(l.Topics[1]);
-            t.To = new UInt160(l.Topics[2]);
+            t.From = new UInt160(l.Topics[1].Substring(26));
+            t.To = new UInt160(l.Topics[2].Substring(26));
+            var s = l.Data[0];
+            Logger.LogCommon(s);
             t.Value = new BigInteger(l.Data[0].HexString2Bytes().Reverse().ToArray()).ToString();
             t.TransactionHash = l.TransactionHash;
 
@@ -83,7 +85,7 @@ namespace FlashPayCrawler.Crawlers
 
             //处理to
             //处理from
-            if (dic.ContainsKey(t.From))
+            if (dic.ContainsKey(t.To))
             {
                 dic[t.To].Add(t);
             }

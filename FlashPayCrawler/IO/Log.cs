@@ -107,13 +107,16 @@ namespace FlashPayCrawler.IO
             l.ContractAddress = new UInt160((string)jo["address"]);
             l.BlockHash = new UInt256((string)jo["blockHash"]);
             l.BlockNumber =((string)jo["blockNumber"]).Replace("0x","").HexToUint();
-            List<string> d = new List<string>();
             string data = ((string)jo["data"]).Replace("0x", "");
-            for (var i = 0; i < data.Length / 64; i++)
+            List<string> list = new List<string>();
+            for (int i = 0; i < data.Trim().Length; i += 64)
             {
-                d.Add(data.Skip(i * 64).Take(64).ToString());
+                if ((data.Trim().Length - i) >= 64)
+                    list.Add(data.Trim().Substring(i, 64));
+                else
+                    list.Add(data.Trim().Substring(i, data.Trim().Length - i));
             }
-            l.Data = d.ToArray();
+            l.Data = list.ToArray();
             l.Topics = ((JArray)jo["topics"]).Count == 0 ? new string[0] :((JArray)jo["topics"]).Select(p => (string)p).ToArray();
             l.LogIndex = ((string)jo["logIndex"]).Replace("0x", "").HexToUint();
             l.Removed = (bool)jo["removed"];

@@ -29,7 +29,6 @@ namespace FlashPayCrawler.Apis
                             snapshot.CareAddrs.Add(new UInt160((string)req.@params[0]), new UInt160((string)req.@params[0]));
                             snapshot.Commit();
                         }
-                        //Singleton.CareAddrs.Add(new UInt160((string)req.@params[0]), new UInt160((string)req.@params[0]));
                         result = getJAbyKV("result", true);
                         break;
                     }
@@ -37,7 +36,6 @@ namespace FlashPayCrawler.Apis
                     {
                         UInt160 key = new UInt160((string)req.@params[0]);
                         UInt160 value = Singleton.Store.GetCareAddrs().TryGet(key);
-                        //UInt160 value = Singleton.CareAddrs.TryGet(key);
                         result = result = getJAbyKV("result", key.Equals(value));
                         break;
                     }
@@ -48,7 +46,6 @@ namespace FlashPayCrawler.Apis
                             snapshot.CareAssets.Add(new UInt160((string)req.@params[0]), new UInt160((string)req.@params[0]));
                             snapshot.Commit();
                         }
-                        //Singleton.CareAssets.Add(new UInt160((string)req.@params[0]), new UInt160((string)req.@params[0]));
                         result = getJAbyKV("result", true);
                         break;
                     }
@@ -56,7 +53,6 @@ namespace FlashPayCrawler.Apis
                     {
                         UInt160 key = new UInt160((string)req.@params[0]);
                         UInt160 value = Singleton.Store.GetCareAssets().TryGet(key);
-                        //UInt160 value = Singleton.CareAssets.TryGet(key);
                         result = result = getJAbyKV("result", key.Equals(value));
                         break;
                     }
@@ -71,7 +67,6 @@ namespace FlashPayCrawler.Apis
                             snapshot.CareEvents.Add(hash, careEvent);
                             snapshot.Commit();
                         }
-                        //Singleton.CareEvents.Add(hash, careEvent);
                         result = getJAbyKV("result", true);
                         break;
                     }
@@ -80,6 +75,13 @@ namespace FlashPayCrawler.Apis
                         JArray j = new JArray();
                         j.Add(Singleton.Store.GetCareEvents().Find().Select(p=>p.Value.ToJson()));
                         result = j;
+                        break;
+                    }
+                case "getCareEventByEventHash":
+                    {
+                        UInt256 eventHash = new UInt256((string)req.@params[0]);
+                        CareEvent careEvent = Singleton.Store.GetCareEvents().TryGet(eventHash);
+                        result = getJAbyKV("result", careEvent.ToJson());
                         break;
                     }
 

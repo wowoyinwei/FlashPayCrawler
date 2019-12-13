@@ -63,9 +63,7 @@ namespace FlashPayCrawler.libs
                 );
             string result = HttpHelper.Post(url, postDataStr);
             JArray ja = (JArray)((JObject)ProcessResult(result))["logs"];
-            List<JObject> logs2 = new List<JObject>();
             List<Log> logs = new List<Log>();
-            logs2.AddRange(ja.Select(p=>(JObject)p));
             try
             {
                 logs.AddRange(ja.Select(p => Log.FromJson((JObject)p)));
