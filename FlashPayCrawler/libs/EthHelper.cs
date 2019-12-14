@@ -40,9 +40,10 @@ namespace FlashPayCrawler.libs
 
         public bool IsBolckExist(uint blockNumber)
         {
-            string postDataStr = PackPostDataStr("eth_getBlockByNumber", new JArray() { blockNumber.ToString("x").FormatHexStr(),true });
+            string postDataStr = PackPostDataStr("eth_blockNumber", new JArray() { });
             string result = HttpHelper.Post(url, postDataStr);
-            return ProcessResult(result) != null;
+            uint curBlockNumber = (ProcessResult(result).ToString()).Replace("0x", "").HexToUint();
+            return blockNumber<= curBlockNumber;
         }
 
         public uint GetBlockTransactionCountByNumber(uint blockNumber)
