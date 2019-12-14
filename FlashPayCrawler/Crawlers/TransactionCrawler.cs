@@ -43,6 +43,8 @@ namespace FlashPayCrawler.Crawlers
             {
                 Log l = logs[i];
                 LogKey lk = new LogKey() { LogIndex = l.LogIndex, TransactionHash = l.TransactionHash };
+                if (l.Topics.Length == 0)
+                    continue;
                 UInt256 eventHash = new UInt256(l.Topics[0]);
                 //如果这个通知是需要在意的合约和通知 就再处理一波
                 CareEvent ce = snapshot.CareEvents.TryGet(eventHash);
