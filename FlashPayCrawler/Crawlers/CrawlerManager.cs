@@ -34,7 +34,7 @@ namespace FlashPayCrawler.Crawlers
                     {
                         Logger.LogCommon(string.Format("高度{0}还没有出块",handlerHeight));
                         await Task.Delay(1000);
-                        return;
+                        continue;
                     }
                     using (Snapshot snapshot = Singleton.Store.GetSnapshot())
                     {
