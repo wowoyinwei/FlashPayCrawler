@@ -17,7 +17,7 @@ namespace FlashPayCrawler.Crawlers
             task.Start();
         }
 
-        public void Start()
+        public async void Start()
         {
             //获取爬虫处理到的高度
             uint curHeight = Singleton.Store.GetBlockNumber().TryGet(0);
@@ -33,7 +33,7 @@ namespace FlashPayCrawler.Crawlers
                     if (!isBlockExist)
                     {
                         Logger.LogCommon(string.Format("高度{0}还没有出块",handlerHeight));
-                        Task.Delay(1000);
+                        await Task.Delay(1000);
                         return;
                     }
                     using (Snapshot snapshot = Singleton.Store.GetSnapshot())
