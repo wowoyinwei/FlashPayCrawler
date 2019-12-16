@@ -57,6 +57,11 @@ namespace FlashPayCrawler.Persistence.SimpleDB
             return new SimpleDbCache<TransferKey, TransferGroup>(db,null,TableId.DATA_Transfer);
         }
 
+        public override Cache<UInt160, TransferBlockNumberList> GetTransferBlockNumberList()
+        {
+            return new SimpleDbCache<UInt160, TransferBlockNumberList>(db, null, TableId.DATA_TransferBlockNumberList);
+        }
+
         public override Snapshot GetSnapshot()
         {
             return new SimpleDbSnapShot(db);
@@ -66,6 +71,5 @@ namespace FlashPayCrawler.Persistence.SimpleDB
         {
             return db.GetDirect(tableId,key);
         }
-
     }
 }

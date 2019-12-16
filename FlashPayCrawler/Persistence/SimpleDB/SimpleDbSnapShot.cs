@@ -22,6 +22,8 @@ namespace FlashPayCrawler.Persistence.SimpleDB
 
         public override Cache<UInt32Wrapper, UInt32Wrapper> BlockNumber { get; }
 
+        public override Cache<UInt160, TransferBlockNumberList> TransferBlockNumberList { get; }
+
         public SimpleDbSnapShot(DB db)
         {
             this.db = db;
@@ -32,6 +34,7 @@ namespace FlashPayCrawler.Persistence.SimpleDB
             CareAssets = new SimpleDbCache<UInt160,UInt160>(this.db,this.batch,TableId.DATA_CareAsset);
             CareEvents = new SimpleDbCache<UInt256, CareEvent>(this.db,this.batch,TableId.DATA_CareEvent);
             Transfers = new SimpleDbCache<TransferKey, TransferGroup>(this.db,this.batch,TableId.DATA_Transfer);
+            TransferBlockNumberList = new SimpleDbCache<UInt160, TransferBlockNumberList>(this.db, this.batch, TableId.DATA_TransferBlockNumberList);
             BlockNumber = new SimpleDbCache<UInt32Wrapper, UInt32Wrapper>(this.db,this.batch,TableId.DATA_BlockNumber);
         }
 

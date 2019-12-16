@@ -93,6 +93,40 @@ namespace FlashPayCrawler.IO
         }
     }
 
+    public class TransferBlockNumberList : ISerializable
+    {
+        public List<uint> blockNumberList;
+
+        public void Deserialize(BinaryReader reader)
+        {
+            int Count = reader.ReadInt32();
+            blockNumberList = new List<uint>();
+            for (var i = 0; i < Count; i++)
+            {
+                blockNumberList.Add(reader.ReadUInt32());
+            }
+        }
+
+        public void Serialize(BinaryWriter writer)
+        {
+            writer.Write(blockNumberList.Count);
+            for (var i = 0; i < blockNumberList.Count; i++)
+            {
+                writer.Write(blockNumberList[i]);
+            }
+        }
+
+        public byte[] Serialize()
+        {
+            using (MemoryStream ms = new MemoryStream())
+            using (BinaryWriter writer = new BinaryWriter(ms))
+            {
+                this.Serialize(writer);
+                return ms.ToArray();
+            }
+        }
+    }
+
     public class TransferGroup : ISerializable
     {
         public Transfer[] transfers;

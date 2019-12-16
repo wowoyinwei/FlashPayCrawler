@@ -10,6 +10,7 @@ namespace FlashPayCrawler.Persistence
         public abstract Cache<UInt256, CareEvent> GetCareEvents();
         public abstract Cache<UInt32Wrapper, UInt32Wrapper> GetBlockNumber();
         public abstract Cache<TransferKey, TransferGroup>GetTransferGroup();
+        public abstract Cache<UInt160, TransferBlockNumberList>GetTransferBlockNumberList();
 
 
         public abstract Snapshot GetSnapshot();

@@ -10,5 +10,6 @@
         public const byte DATA_CareAsset = 0x06;
         public const byte DATA_BlockNumber = 0x07;
         public const byte DATA_CareEvent = 0x08;
+        public const byte DATA_TransferBlockNumberList = 0x09;
     }
 }

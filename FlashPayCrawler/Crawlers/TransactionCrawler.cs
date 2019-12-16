@@ -33,6 +33,15 @@ namespace FlashPayCrawler.Crawlers
                     new TransferKey() { address = v, blockNumber = blockNumber},
                     new TransferGroup() { transfers = dic[v].ToArray()}
                     );
+                //将某个地址有交易的高度都记录下来
+                var list = snapshot.TransferBlockNumberList.TryGet(v);
+                if (list == null)
+                {
+                    list = new TransferBlockNumberList();
+                    list.blockNumberList = new List<uint>();
+                }
+                list.blockNumberList.Add(blockNumber);
+                snapshot.TransferBlockNumberList.GetAndChange(v, () => list);
             }
         }
 
@@ -70,7 +79,6 @@ namespace FlashPayCrawler.Crawlers
             t.From = new UInt160(l.Topics[1].Substring(26));
             t.To = new UInt160(l.Topics[2].Substring(26));
             var s = l.Data[0];
-            Logger.LogCommon(s);
             t.Value = new BigInteger(l.Data[0].HexString2Bytes().Reverse().ToArray()).ToString();
             t.TransactionHash = l.TransactionHash;
 
