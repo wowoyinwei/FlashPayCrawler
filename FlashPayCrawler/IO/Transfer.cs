@@ -59,6 +59,7 @@ namespace FlashPayCrawler.IO
         public JObject ToJson()
         {
             JObject jo = new JObject();
+            jo["BlockNumber"] = BlockNumber;
             jo["TransactionHash"] = TransactionHash.ToString();
             jo["LogIndex"] = LogIndex;
             jo["Asset"] = Asset.ToString();
