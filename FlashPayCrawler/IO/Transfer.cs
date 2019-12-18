@@ -10,6 +10,8 @@ namespace FlashPayCrawler.IO
 
     public class Transfer : ISerializable
     {
+        public uint BlockNumber;
+
         public UInt256 TransactionHash;
 
         public uint LogIndex;
@@ -24,6 +26,7 @@ namespace FlashPayCrawler.IO
 
         public void Deserialize(BinaryReader reader)
         {
+            BlockNumber = reader.ReadUInt32();
             TransactionHash = reader.ReadSerializable<UInt256>();
             LogIndex = reader.ReadUInt32();
             Asset = reader.ReadSerializable<UInt160>();
@@ -34,6 +37,7 @@ namespace FlashPayCrawler.IO
 
         public void Serialize(BinaryWriter writer)
         {
+            writer.Write(BlockNumber);
             writer.Write(TransactionHash);
             writer.Write(LogIndex);
             writer.Write(Asset);

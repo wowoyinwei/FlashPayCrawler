@@ -78,6 +78,7 @@ namespace FlashPayCrawler.Crawlers
             t.LogIndex = l.LogIndex;
             t.From = new UInt160(l.Topics[1].Substring(26));
             t.To = new UInt160(l.Topics[2].Substring(26));
+            t.BlockNumber = l.BlockNumber;
             var s = l.Data[0];
             t.Value = new BigInteger(l.Data[0].HexString2Bytes().Reverse().ToArray()).ToString();
             t.TransactionHash = l.TransactionHash;
