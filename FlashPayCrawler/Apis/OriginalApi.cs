@@ -60,7 +60,7 @@ namespace FlashPayCrawler.Apis
                             uint _blockNumber = list.blockNumberList[i];
                             if (_blockNumber < blockNumber)
                                 continue;
-                            TransferGroup trans = Singleton.Store.GetTransferGroup().TryGet(new TransferKey() { address = address, blockNumber = blockNumber });
+                            TransferGroup trans = Singleton.Store.GetTransferGroup().TryGet(new TransferKey() { address = address, blockNumber = _blockNumber });
                             for (var ii = 0; ii < trans.transfers.Length; ii++)
                             {
                                 ja.Add(trans.transfers[ii].ToJson());
