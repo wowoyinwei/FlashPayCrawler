@@ -49,6 +49,26 @@ namespace FlashPayCrawler.Apis
                         result = ja;
                         break;
                     }
+                case "getTransferFilterBlockNumber":
+                    {
+                        UInt160 address = new UInt160((string)req.@params[0]);
+                        uint blockNumber = uint.Parse(req.@params[1].ToString());
+                        TransferBlockNumberList list = Singleton.Store.GetTransferBlockNumberList().TryGet(address);
+                        JArray ja = new JArray();
+                        for (var i = 0; i < list.blockNumberList.Count; i++)
+                        {
+                            uint _blockNumber = list.blockNumberList[i];
+                            if (_blockNumber < blockNumber)
+                                continue;
+                            TransferGroup trans = Singleton.Store.GetTransferGroup().TryGet(new TransferKey() { address = address, blockNumber = blockNumber });
+                            for (var ii = 0; ii < trans.transfers.Length; ii++)
+                            {
+                                ja.Add(trans.transfers[ii].ToJson());
+                            }
+                        }
+                        result = ja;
+                        break;
+                    }
             }
             return result;
         }
