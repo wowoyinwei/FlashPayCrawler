@@ -24,29 +24,43 @@ namespace FlashPayCrawler.Apis
                         UInt160 address = new UInt160((string)req.@params[0]);
                         uint blockNumber =uint.Parse(req.@params[1].ToString());
                         TransferGroup trans = Singleton.Store.GetTransferGroup().TryGet(new TransferKey() { address = address,blockNumber = blockNumber});
-                        JArray ja = new JArray();
-                        for (var i = 0; i < trans.transfers.Length; i++)
+                        if (trans == null)
                         {
-                            ja.Add(trans.transfers[i].ToJson());
+                            result = new JArray();
                         }
-                        result = ja;
+                        else
+                        {
+                            JArray ja = new JArray();
+                            for (var i = 0; i < trans.transfers.Length; i++)
+                            {
+                                ja.Add(trans.transfers[i].ToJson());
+                            }
+                            result = ja;
+                        }
                         break;
                     }
                 case "getAllTransferByAddress":
                     {
                         UInt160 address = new UInt160((string)req.@params[0]);
                         TransferBlockNumberList list = Singleton.Store.GetTransferBlockNumberList().TryGet(address);
-                        JArray ja = new JArray();
-                        for (var i = 0; i < list.blockNumberList.Count; i++)
+                        if (list == null)
                         {
-                            uint blockNumber = list.blockNumberList[i];
-                            TransferGroup trans = Singleton.Store.GetTransferGroup().TryGet(new TransferKey() { address = address, blockNumber = blockNumber });
-                            for (var ii = 0; ii < trans.transfers.Length; ii++)
-                            {
-                                ja.Add(trans.transfers[ii].ToJson());
-                            }
+                            result = new JArray();
                         }
-                        result = ja;
+                        else
+                        {
+                            JArray ja = new JArray();
+                            for (var i = 0; i < list.blockNumberList.Count; i++)
+                            {
+                                uint blockNumber = list.blockNumberList[i];
+                                TransferGroup trans = Singleton.Store.GetTransferGroup().TryGet(new TransferKey() { address = address, blockNumber = blockNumber });
+                                for (var ii = 0; ii < trans.transfers.Length; ii++)
+                                {
+                                    ja.Add(trans.transfers[ii].ToJson());
+                                }
+                            }
+                            result = ja;
+                        }
                         break;
                     }
                 case "getTransferFilterBlockNumber":
@@ -54,19 +68,26 @@ namespace FlashPayCrawler.Apis
                         UInt160 address = new UInt160((string)req.@params[0]);
                         uint blockNumber = uint.Parse(req.@params[1].ToString());
                         TransferBlockNumberList list = Singleton.Store.GetTransferBlockNumberList().TryGet(address);
-                        JArray ja = new JArray();
-                        for (var i = 0; i < list.blockNumberList.Count; i++)
+                        if (list == null)
                         {
-                            uint _blockNumber = list.blockNumberList[i];
-                            if (_blockNumber < blockNumber)
-                                continue;
-                            TransferGroup trans = Singleton.Store.GetTransferGroup().TryGet(new TransferKey() { address = address, blockNumber = _blockNumber });
-                            for (var ii = 0; ii < trans.transfers.Length; ii++)
-                            {
-                                ja.Add(trans.transfers[ii].ToJson());
-                            }
+                            result = new JArray();
                         }
-                        result = ja;
+                        else
+                        {
+                            JArray ja = new JArray();
+                            for (var i = 0; i < list.blockNumberList.Count; i++)
+                            {
+                                uint _blockNumber = list.blockNumberList[i];
+                                if (_blockNumber < blockNumber)
+                                    continue;
+                                TransferGroup trans = Singleton.Store.GetTransferGroup().TryGet(new TransferKey() { address = address, blockNumber = _blockNumber });
+                                for (var ii = 0; ii < trans.transfers.Length; ii++)
+                                {
+                                    ja.Add(trans.transfers[ii].ToJson());
+                                }
+                            }
+                            result = ja;
+                        }
                         break;
                     }
             }
